@@ -2,10 +2,28 @@
 
 module.exports = {
     check: function(app_identifier,callbacks){
+        if((!app_identifier) || (typeof(app_identifier) != "string")){
+            throw new Error("The package name cannot be empty !");
+        }
+
         cordova.exec(function(data){
-             console.info(data);
+            if(callbacks){
+                if(data == "exists"){
+                    if(callbacks.hasOwnProperty("success")){
+                        callbacks.success();
+                    }
+                }else{
+                    if(callbacks.hasOwnProperty("fail")){
+                        callbacks.fail();
+                    }
+                }
+            }
         }, function(err){
-            console.error(err);
-        }, "OurCodeWorldappinstalled", "check", [_settings]);
+            if(callbacks.hasOwnProperty("error")){
+                callbacks.error(err);
+            }
+        }, "OurCodeWorldappinstalled", "check", [{
+            packagename: app_identifier
+        }]);
     }
 };
