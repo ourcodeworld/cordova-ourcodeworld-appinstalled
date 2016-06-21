@@ -36,12 +36,18 @@ public class OurCodeWorldappinstalled extends CordovaPlugin {
             //This intent will help you to launch if the package is already installed
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    Intent LaunchIntent = cordova.getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
-                    cordova.getActivity().getApplicationContext().startActivity(LaunchIntent);
+                    Intent intent = cordova.getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
 
-                    PluginResult result = new PluginResult(PluginResult.Status.OK, "opening");
-                    result.setKeepCallback(true);
-                    callbacks.sendPluginResult(result);
+                    if (intent != null) {
+                        cordova.getActivity().getApplicationContext().startActivity(intent);
+                        PluginResult result = new PluginResult(PluginResult.Status.OK, "opening");
+                        result.setKeepCallback(true);
+                        callbacks.sendPluginResult(result);
+                    }else{
+                        PluginResult result = new PluginResult(PluginResult.Status.ERROR, "App is not installed");
+                        result.setKeepCallback(true);
+                        callbacks.sendPluginResult(result);
+                    }
                 }
             });
 
