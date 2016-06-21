@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 
 public class OurCodeWorldappinstalled extends CordovaPlugin {
     private static final String ACTION = "check";
+    private static final String OPEN = "open";
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
@@ -30,6 +31,10 @@ public class OurCodeWorldappinstalled extends CordovaPlugin {
                     }
                 }
             });
+        }else if(OPEN.equals(action)){
+            //This intent will help you to launch if the package is already installed
+            //Intent LaunchIntent = cordova.getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
+            //startActivity(LaunchIntent);
         }
 
         PluginResult pluginResult = new  PluginResult(PluginResult.Status.NO_RESULT);
@@ -41,7 +46,7 @@ public class OurCodeWorldappinstalled extends CordovaPlugin {
     private boolean appInstalledOrNot(String uri) {
         PackageManager pm = cordova.getActivity().getPackageManager();
         boolean app_installed;
-        
+
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             app_installed = true;

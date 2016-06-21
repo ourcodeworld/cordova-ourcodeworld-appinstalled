@@ -25,5 +25,14 @@ module.exports = {
         }, "OurCodeWorldappinstalled", "check", [{
             packagename: app_identifier
         }]);
+    },
+    open: function(app_identifier){
+        cordova.exec(function(data){
+
+        }, function(err){
+
+        }, "OurCodeWorldappinstalled", "open", [{
+            packagename: app_identifier
+        }]);
     }
 };
