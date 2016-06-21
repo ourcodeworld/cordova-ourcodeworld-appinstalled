@@ -2,6 +2,8 @@
 
 module.exports = {
     check: function(app_identifier,callbacks){
+        var _instance = this;
+
         if((!app_identifier) || (typeof(app_identifier) != "string")){
             throw new Error("The package name cannot be empty !");
         }
@@ -10,7 +12,13 @@ module.exports = {
             if(callbacks){
                 if(data == "exists"){
                     if(callbacks.hasOwnProperty("success")){
-                        callbacks.success();
+                        var app = {
+                            open: function(){
+                                _instance.open(app_identifier);
+                            }
+                        };
+
+                        callbacks.success(app);
                     }
                 }else{
                     if(callbacks.hasOwnProperty("fail")){
@@ -28,12 +36,16 @@ module.exports = {
     },
     open: function(app_identifier,callbacks){
         cordova.exec(function(data){
-            if(callbacks.hasOwnProperty("success")){
-                callbacks.success();
+            if(callbacks){
+                if(callbacks.hasOwnProperty("success")){
+                    callbacks.success();
+                }
             }
         }, function(err){
-            if(callbacks.hasOwnProperty("error")){
-                callbacks.error(err);
+            if(callbacks){
+                if(callbacks.hasOwnProperty("error")){
+                    callbacks.error(err);
+                }
             }
         }, "OurCodeWorldappinstalled", "open", [{
             packagename: app_identifier
