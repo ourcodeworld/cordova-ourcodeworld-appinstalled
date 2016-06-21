@@ -11,10 +11,14 @@ public class OurCodeWorldappinstalled extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
+        final CallbackContext callbacks = callbackContext;
+        final JSONObject arg_object = data.getJSONObject(0);
+        final String packageName = arg_object.getString("packagename");
+
         if (ACTION.equals(action)) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    boolean installed = appInstalledOrNot("com.Ch.Example.pack");
+                    boolean installed = appInstalledOrNot(packageName);
                     if(installed) {
                         PluginResult result = new PluginResult(PluginResult.Status.OK, "exists");
                         result.setKeepCallback(true);
