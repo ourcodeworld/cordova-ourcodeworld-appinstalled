@@ -37,7 +37,7 @@ public class OurCodeWorldappinstalled extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     Intent LaunchIntent = cordova.getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
-                    startActivity(LaunchIntent);
+                    cordova.getActivity().getApplicationContext().startActivity(LaunchIntent);
 
                     PluginResult result = new PluginResult(PluginResult.Status.OK, "opening");
                     result.setKeepCallback(true);
