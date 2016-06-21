@@ -4,7 +4,7 @@ import org.apache.cordova.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.app.Activity;
+import android.content.pm.PackageManager;
 
 public class OurCodeWorldappinstalled extends CordovaPlugin {
     private static final String ACTION = "check";
@@ -39,8 +39,9 @@ public class OurCodeWorldappinstalled extends CordovaPlugin {
     }
 
     private boolean appInstalledOrNot(String uri) {
-        PackageManager pm = getPackageManager();
+        PackageManager pm = cordova.getActivity().getPackageManager();
         boolean app_installed;
+        
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             app_installed = true;
