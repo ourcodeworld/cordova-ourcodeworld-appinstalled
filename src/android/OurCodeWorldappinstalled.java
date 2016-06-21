@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 
 public class OurCodeWorldappinstalled extends CordovaPlugin {
     private static final String ACTION = "check";
@@ -33,8 +34,17 @@ public class OurCodeWorldappinstalled extends CordovaPlugin {
             });
         }else if(OPEN.equals(action)){
             //This intent will help you to launch if the package is already installed
-            //Intent LaunchIntent = cordova.getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
-            //startActivity(LaunchIntent);
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    Intent LaunchIntent = cordova.getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
+                    startActivity(LaunchIntent);
+
+                    PluginResult result = new PluginResult(PluginResult.Status.OK, "opening");
+                    result.setKeepCallback(true);
+                    callbacks.sendPluginResult(result);
+                }
+            });
+
         }
 
         PluginResult pluginResult = new  PluginResult(PluginResult.Status.NO_RESULT);

@@ -26,11 +26,15 @@ module.exports = {
             packagename: app_identifier
         }]);
     },
-    open: function(app_identifier){
+    open: function(app_identifier,callbacks){
         cordova.exec(function(data){
-
+            if(callbacks.hasOwnProperty("success")){
+                callbacks.success();
+            }
         }, function(err){
-
+            if(callbacks.hasOwnProperty("error")){
+                callbacks.error(err);
+            }
         }, "OurCodeWorldappinstalled", "open", [{
             packagename: app_identifier
         }]);
